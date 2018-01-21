@@ -201,11 +201,13 @@ void writeToWifi( int millis, float voltage ) {
     client.println();
 */
 
-  char data[] = "{"
+  String data = "{"
       "\"deviceId\":\"19d6bcf5-6d95-466d-82f4-a91a3b0d7dc2\","
-      "\"millis\":1234,"
-      "\"voltage\":3.3"
-    "}";
+      "\"voltage\":";
+
+    data += voltage;
+
+    data += "}";
 
     
   Serial.println("\nStarting connection to server...");
@@ -226,7 +228,7 @@ void writeToWifi( int millis, float voltage ) {
 //    prln("");
 
     pr("Content-Length: ");
-    prln(strlen(data));// number of bytes in the payload
+    prln(data.length());// number of bytes in the payload
     prln("");// important need an empty line here 
     prln(data);// the payload
     
