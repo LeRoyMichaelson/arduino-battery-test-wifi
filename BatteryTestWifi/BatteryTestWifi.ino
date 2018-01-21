@@ -217,9 +217,22 @@ void writeToWifi( int millis, float voltage ) {
     Serial.print( "JSON: " );
     Serial.print( data );
     Serial.println();
+
+    Serial.println( "-- REQUEST --------------------------------" );
+    Serial.println("POST /battery HTTP/1.1");
+    Serial.println("Host: 192.168.168.8:8090");
+    Serial.println("Connection: close");
+    Serial.println();
+
+    Serial.print("Content-Length: ");
+    Serial.println(strlen(data));// number of bytes in the payload
+    Serial.println();// important need an empty line here 
+    Serial.println(data);// the payload
+    Serial.println( "-------------------------------------------" );
+    Serial.println();
     
     client.println("POST /battery HTTP/1.1");
-    client.println("Host: www.google.com");
+    client.println("Host: 192.168.168.8:8090");
     client.println("Connection: close");
     client.println();
 
@@ -227,6 +240,8 @@ void writeToWifi( int millis, float voltage ) {
     client.println(strlen(data));// number of bytes in the payload
     client.println();// important need an empty line here 
     client.println(data);// the payload
+
+    
   } else {
     Serial.println( "Could not connect to server" );
   }
@@ -243,6 +258,18 @@ void writeToWifi( int millis, float voltage ) {
 
 }
 
+
+//--------------------------------------------------------------------------------------------
+void write( String value ) {
+  Serial.print( value );
+  client.print( value );
+}
+
+//--------------------------------------------------------------------------------------------
+void writeln( String value ) {
+  Serial.println( value );
+  client.println( value );
+}
 
 //--------------------------------------------------------------------------------------------
 void printWiFiStatus() {
