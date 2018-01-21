@@ -72,7 +72,7 @@ const int SD_CARD = 5;
 int status = WL_IDLE_STATUS;
 // if you don't want to use DNS (and reduce your sketch size)
 // use the numeric IP instead of the name for the server:
-IPAddress server(192,168,168,8);  // numeric IP (no DNS)
+IPAddress server(192,168,168,10);  // numeric IP (no DNS)
 //char server[] = "www.google.com";    // name address for Google (using DNS)
 
 // Initialize the Ethernet client library
@@ -219,18 +219,20 @@ void writeToWifi( int millis, float voltage ) {
     Serial.println();
 
     Serial.println( "-- REQUEST --------------------------------" );
-    Serial.println("POST /battery HTTP/1.1");
-    Serial.println("Host: 192.168.168.8:8090");
-    Serial.println("Connection: close");
-    Serial.println();
+    prln("POST /battery HTTP/1.1");
+    prln("Host: 192.168.168.10:8090");
+    prln("Content-Type: application/json");
+//    prln("Connection: close");
+//    prln("");
 
-    Serial.print("Content-Length: ");
-    Serial.println(strlen(data));// number of bytes in the payload
-    Serial.println();// important need an empty line here 
-    Serial.println(data);// the payload
+    pr("Content-Length: ");
+    prln(strlen(data));// number of bytes in the payload
+    prln("");// important need an empty line here 
+    prln(data);// the payload
+    
     Serial.println( "-------------------------------------------" );
     Serial.println();
-    
+/*   
     client.println("POST /battery HTTP/1.1");
     client.println("Host: 192.168.168.8:8090");
     client.println("Connection: close");
@@ -240,7 +242,7 @@ void writeToWifi( int millis, float voltage ) {
     client.println(strlen(data));// number of bytes in the payload
     client.println();// important need an empty line here 
     client.println(data);// the payload
-
+*/
     
   } else {
     Serial.println( "Could not connect to server" );
@@ -260,13 +262,19 @@ void writeToWifi( int millis, float voltage ) {
 
 
 //--------------------------------------------------------------------------------------------
-void write( String value ) {
+void pr( String value ) {
   Serial.print( value );
   client.print( value );
 }
 
 //--------------------------------------------------------------------------------------------
-void writeln( String value ) {
+void prln( String value ) {
+  Serial.println( value );
+  client.println( value );
+}
+
+//--------------------------------------------------------------------------------------------
+void prln( int value ) {
   Serial.println( value );
   client.println( value );
 }
